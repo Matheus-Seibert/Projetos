@@ -1,0 +1,72 @@
+/*Projeto A
+
+JOGO DA VELHA
+
+Criar um jogo da velha interativo (humano Vs. máquina). O programa deve pedir um input ao jogador (a
+posição onde o jogador quer colocar seu símbolo) e então o próprio código deve fazer sua jogada. O código
+deve ser capaz de identificar quem ganhou (o computador ou o jogador) ou se o jogo terminou em um
+empate.
+Use randomização para decidir em que posição o computador vai fazer sua jogada. Lembre-se que uma
+jogada não pode sobrescrever a outra, ou seja, só é possível fazer jogadas em espaços livres.
+*Obrigatório o uso de Funções. Entrada de Dados na função principal.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <time.h>
+#define MAX 3
+void inicializar(int Tab[][MAX]);
+int main()
+{
+    setlocale(LC_ALL, "Portuguese");
+
+    int Tabuleiro[MAX][MAX], cod_op;
+
+    printf("Xx_-Jogo da Velha Radical-_xX\n");
+    printf("Chamar pro X1! (1)\n");
+    printf("Desistir (0)\n");
+    scanf("%d", &cod_op);
+
+    switch(cod_op)
+    {
+
+    case 1:
+
+        inicializar(Tabuleiro);
+
+        break;
+    case 0:
+
+        printf("Chora mais\n%c",002);
+
+        break;
+
+    }
+
+}
+
+void inicializar(int Tab[][MAX])//Vai iniciar o tabuleiro
+{
+    int i, j;
+
+    for(i=0; i<MAX; i++) //FOR DA LINHA
+        for(j=0; j<MAX; j++) //FOR DA COLUNA
+            Tab[i][j]=0; //ZERA TODO O TABULEIRO
+
+
+    for(i=0;i<MAX;i++){//FOR DA LINHA
+            for(j=0;j<MAX;j++){//FOR DA COLUNA
+         if(Tab[i][j] == 0)
+                printf("    ");
+
+        if(j != (MAX-1))
+                printf("|");
+            }
+            putchar('\n');
+    }
+
+
+}
+
+
+
