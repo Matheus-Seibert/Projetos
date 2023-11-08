@@ -16,6 +16,9 @@ jogada não pode sobrescrever a outra, ou seja, só é possível fazer jogadas e
 #include <time.h>
 #define MAX 3
 void inicializar(int Tab[][MAX]);
+void limpar(int Tab[][MAX]);
+void mostrartabuleiro(int Tab[][MAX]);
+void jogar(int Tab[][MAX]);
 int main()
 {
     setlocale(LC_ALL, "Portuguese");
@@ -47,26 +50,79 @@ int main()
 
 void inicializar(int Tab[][MAX])//Vai iniciar o tabuleiro
 {
-    int i, j;
 
-    for(i=0; i<MAX; i++) //FOR DA LINHA
-        for(j=0; j<MAX; j++) //FOR DA COLUNA
-            Tab[i][j]=0; //ZERA TODO O TABULEIRO
+    limpar(Tab);
 
+    mostrartabuleiro(Tab);
+    jogar(Tab);
 
-    for(i=0;i<MAX;i++){//FOR DA LINHA
-            for(j=0;j<MAX;j++){//FOR DA COLUNA
-         if(Tab[i][j] == 0)
-                printf("    ");
-
-        if(j != (MAX-1))
-                printf("|");
-            }
-            putchar('\n');
-    }
 
 
 }
+
+void limpar(int Tab[][MAX]){
+    int i, j;
+
+    for(i=0;i<MAX;i++)
+        for(j=0;j<MAX;j++)
+            Tab[i][j] = 0;
+                //Deixa todo o tabuleiro limpo
+}
+
+void mostrartabuleiro(int Tab[][MAX]){
+
+int i, j;
+    putchar('\n');
+
+    for(i = 0 ; i < MAX ; i++)
+    {
+        for(j = 0 ; j < MAX ; j++)
+        {
+            if(Tab[i][j] == 0)
+                printf("    ");
+            else
+                if(Tab[i][j] == 1)
+                    printf("  X ");
+                else
+                    printf("  O ");
+
+            if(j != (MAX-1))
+                printf("|");
+        }
+        putchar('\n');
+    }
+    putchar('\n');
+
+}
+
+void jogar(int Tab[][MAX]){
+
+    int i, j, vez=0;
+    vez++;
+    printf("\nFaça sua Jogada \n");
+
+    do
+    {
+        printf("Linha: ");
+        scanf("%d", &i);
+        i--;
+
+        printf("Coluna: ");
+        scanf("%d", &j);
+        j--;
+
+        if(checaLocal(Tab, i, j) == 0)
+            printf("Posicao ocupada ou inexistente, escolha outra.\n");
+
+    } while(checaLocal(Tab, i, j) == 0);
+
+    if(vez%2)
+        Tab[i][j] = -1;
+    else
+        Tab[i][j] = 1;
+}
+
+
 
 
 
