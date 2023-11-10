@@ -63,8 +63,8 @@ void inicializar(int Tab[][MAX])//Vai iniciar o tabuleiro
 void limpar(int Tab[][MAX]){
     int i, j;
 
-    for(i=0;i<MAX;i++)
-        for(j=0;j<MAX;j++)
+    for(i=0;i<MAX;i++)//LINHA
+        for(j=0;j<MAX;j++)//COLUNA
             Tab[i][j] = 0;
                 //Deixa todo o tabuleiro limpo
 }
@@ -74,9 +74,9 @@ void mostrartabuleiro(int Tab[][MAX]){
 int i, j;
     putchar('\n');
 
-    for(i = 0 ; i < MAX ; i++)
+    for(i = 0 ; i < MAX ; i++)//MOSTA A LINHA
     {
-        for(j = 0 ; j < MAX ; j++)
+        for(j = 0 ; j < MAX ; j++)//MOSTRA COLUNA
         {
             if(Tab[i][j] == 0)
                 printf("    ");
@@ -87,7 +87,7 @@ int i, j;
                     printf("  O ");
 
             if(j != (MAX-1))
-                printf("|");
+                printf("|");//BARRA ENTRE QUADRADOS
         }
         putchar('\n');
     }
@@ -122,7 +122,10 @@ void jogar(int Tab[][MAX]){
         Tab[i][j] = 1;
 }
 
-
-
-
-
+int checaLocal(int Tab[][MAX], int i, int j)
+{
+    if(i < 0 || i > (MAX-1) || j < 0 || j > (MAX-1) || Tab[i][j] != 0)
+        return 0;
+    else
+        return 1;
+}
