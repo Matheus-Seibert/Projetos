@@ -19,6 +19,8 @@ void inicializar(int Tab[][MAX]);
 void limpar(int Tab[][MAX]);
 void mostrartabuleiro(int Tab[][MAX]);
 void jogar(int Tab[][MAX]);
+int checaLocal(int Tab[][MAX], int i, int j);
+int checaGanhoulinha(int Tab[][MAX]);
 int main()
 {
     setlocale(LC_ALL, "Portuguese");
@@ -53,9 +55,10 @@ void inicializar(int Tab[][MAX])//Vai iniciar o tabuleiro
 
     limpar(Tab);
 
+    do{
     mostrartabuleiro(Tab);
     jogar(Tab);
-
+    }while(checaGanhoulinha!=1);
 
 
 }
@@ -128,4 +131,22 @@ int checaLocal(int Tab[][MAX], int i, int j)
         return 0;
     else
         return 1;
+}
+
+int checaGanhoulinha(int Tab[][MAX]){
+
+int i, j, soma;
+
+ for(i = 0 ; i < MAX ; i++)
+    {
+        soma=0;
+
+        for(j = 0 ; j < MAX ; j++)
+            soma = soma + Tab[i][j];
+
+        if(soma==MAX || soma == (-1)*MAX)
+            return 1;
+    }
+
+    return 0;
 }
