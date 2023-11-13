@@ -1,0 +1,190 @@
+/*O anexo main.c foi adicionado.Conversa aberta. Uma mensagem não lida.
+
+Pular para o conteúdo
+Como usar o E-mail de MX2 - UNISC com leitores de tela
+
+1 de 200
+(sem assunto)
+Caixa de entrada
+
+KEN TAKAHATA <ken@mx2.unisc.br>
+Anexos
+19:15 (há 0 minuto)
+para mim, REGIS
+
+
+ Um anexo
+  •  Anexos verificados pelo Gmail*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <locale.h>
+#define TAM 9
+
+void setVazia(int sudoku[TAM][TAM]);
+void printJogo(int sudoku[TAM][TAM]);
+void inserir (int sudoku[TAM][TAM]);
+void popula(int sudoku[TAM][TAM]);
+int verfSetor(int valor, int linha, int coluna, int sudoku[TAM][TAM]);
+int verfCol(int valor,int lin, int col,int sudoku[TAM][TAM]);
+int verfLin(int valor,int lin, int col,int sudoku[TAM][TAM]);
+
+int main()
+{   int sudoku[TAM][TAM], contador=0;
+setlocale(LC_ALL, "Portuguese");
+
+    setVazia(sudoku);
+    popula(sudoku);
+
+    do{
+    printJogo(sudoku);
+    inserir(sudoku);
+        contador++;
+
+    }while(contador<100);
+
+    return 0;
+}
+
+//inicializa matriz em 0
+void setVazia(int sudoku[TAM][TAM]){
+    int i,j;
+    for(i=0;i<TAM;i++){
+        for(j=0;j<TAM;j++){
+                sudoku[i][j]=0;
+        }
+    }
+
+}
+
+
+void printJogo(int sudoku[TAM][TAM]){
+    int i,j;
+    for (i = 0; i < TAM; i++) {
+    for (j = 0; j < TAM; j++) {
+        printf("%i", sudoku[i][j]);
+        if ((j + 1) % 3 == 0 && j < TAM - 1)
+            printf(" | ");
+        else
+            printf(" ");
+    }
+    printf("\n");
+    if ((i + 1) % 3 == 0 && i < TAM - 1)
+        printf("------+-------+------\n");
+}
+printf("\n");
+}
+void inserir (int sudoku[TAM][TAM]){
+int i, j,n;
+do
+    {
+        printf("Número:");
+        scanf("%d", &n);
+        printf("Linha: ");
+        scanf("%d", &i);
+        i--;
+
+        printf("Coluna: ");
+        scanf("%d", &j);
+        j--;
+
+        if((verfLin(n, i, j, sudoku) !=0 || verfCol(n, i, j, sudoku) !=0))
+            printf("Posicao ocupada ou inexistente, escolha outra.\n");
+
+        else
+            sudoku[i][j] = n;
+
+
+    } while((verfLin(n, i, j, sudoku)) != 0 && (verfCol(n, i, j, sudoku) !=0));
+
+
+}
+
+
+void popula(int sudoku[TAM][TAM]) {
+    int i=0, j, aux, exLin, exCol, exSet, setorLin=1, setorCol=1,count=0;
+    srand(time(NULL));
+
+        while (i < TAM) {
+            j = 0;
+            while (j <floor(rand()%9)+1){
+                aux = rand() % 9 + 1;
+
+                exLin = verfLin(aux, i, j, sudoku);
+                exCol = verfCol(aux, i, j, sudoku);
+                exSet = verfSetor(aux, setorLin, setorCol, sudoku);
+
+                if (exLin == 0 && exCol == 0 && exSet == 0) { //se todos 0 pode adicionar
+                    sudoku[i][j] = aux;
+                    j++;
+                    if (j % 3 == 0)
+                        setorCol++;
+
+                }
+                else{
+                //verifica quantidade de verificaçoes erradas se passar limpa matriz
+                    count++;
+                    if(count>50){
+                        setVazia(sudoku);
+                        setorLin = 1;
+                        setorCol = 1;
+                        setVazia(sudoku);
+                        i = 0;
+                        count=0;
+                        j=0;
+                    }
+                }
+            }
+            count=0;
+            i++;
+            setorCol = 1;
+            if (i % 3 == 0) {
+                setorLin++;
+            }
+        }
+
+}
+
+
+//verificações de existencia do valor ja inserido na matriz
+int verfLin(int valor,int lin, int col,int sudoku[TAM][TAM]){
+    int j;
+    static int count=0;
+    for(j=0;j<col;j++){
+        if(valor==sudoku[lin][j]){
+                    count++;
+            return 1;}
+        }
+
+
+    return 0;
+}
+
+
+int verfCol(int valor,int lin, int col,int sudoku[TAM][TAM]){
+    int i;
+    for(i=0;i<lin;i++){
+        if(valor==sudoku[i][col])
+            return 1;
+
+
+        }
+    return 0;
+}
+
+int verfSetor(int valor, int setorLin, int setorCol, int sudoku[TAM][TAM]) {
+    int i,j;
+    int iniI=(setorLin*3)-3;        //calculo para localizar inicio
+    int iniJ=(setorCol*3)-3;
+    //printf("%i  %i ",iniI,iniJ);
+    for(i=iniI;i<setorLin*3;i++){
+        for(j=iniJ;j<setorCol*3;j++){
+            if(valor==sudoku[i][j])
+            return 1;
+
+        }
+    }
+    return 0;
+}
+
