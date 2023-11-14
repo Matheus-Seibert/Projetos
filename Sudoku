@@ -21,6 +21,15 @@ para mim, REGIS
 #include <math.h>
 #include <locale.h>
 #define TAM 9
+int sudoku[TAM][TAM]={{5,3,0,0,7,0,0,0,0},
+                {6,0,0,1,9,5,0,0,0},
+                {0,9,8,0,0,0,0,6,0},
+                {8,0,0,0,6,0,0,0,3},
+                {4,0,0,8,0,3,0,0,1},
+                {7,0,0,0,2,0,0,0,6},
+                {0,6,0,0,0,0,2,8,0},
+                {0,0,0,4,1,9,0,0,5},
+                {0,0,0,0,8,0,0,7,9}};
 
 void setVazia(int sudoku[TAM][TAM]);
 void printJogo(int sudoku[TAM][TAM]);
@@ -31,7 +40,7 @@ int verfCol(int valor,int lin, int col,int sudoku[TAM][TAM]);
 int verfLin(int valor,int lin, int col,int sudoku[TAM][TAM]);
 
 int main()
-{   int sudoku[TAM][TAM], contador=0;
+{   int contador=0;
 setlocale(LC_ALL, "Portuguese");
 
     setVazia(sudoku);
@@ -60,8 +69,22 @@ void setVazia(int sudoku[TAM][TAM]){
 
 
 void printJogo(int sudoku[TAM][TAM]){
-    int i,j;
-    for (i = 0; i < TAM; i++) {
+
+    static int solucoes = 0;
+int l, c;
+
+printf(" Solucao: %d\n", ++solucoes);
+for (l = 0; l < 9; l++) {
+for (c = 0; c < 9; c++) {
+printf(" %d", sudoku[l][c]);
+if (c % 3 == 2) printf(" ");
+}
+printf("\n");
+if (l % 3 == 2) printf("\n");
+}
+
+
+    /*for (i = 0; i < TAM; i++) {
     for (j = 0; j < TAM; j++) {
         printf("%i", sudoku[i][j]);
         if ((j + 1) % 3 == 0 && j < TAM - 1)
@@ -72,7 +95,7 @@ void printJogo(int sudoku[TAM][TAM]){
     printf("\n");
     if ((i + 1) % 3 == 0 && i < TAM - 1)
         printf("------+-------+------\n");
-}
+}*/
 printf("\n");
 }
 void inserir (int sudoku[TAM][TAM]){
@@ -81,6 +104,7 @@ do
     {
         printf("Número:");
         scanf("%d", &n);
+
         printf("Linha: ");
         scanf("%d", &i);
         i--;
@@ -89,9 +113,8 @@ do
         scanf("%d", &j);
         j--;
 
-        if((verfLin(n, i, j, sudoku) !=0 || verfCol(n, i, j, sudoku) !=0))
+        if((verfLin(n, i, j, sudoku) == 1) || (verfCol(n, i, j, sudoku) ==1))
             printf("Posicao ocupada ou inexistente, escolha outra.\n");
-
         else
             sudoku[i][j] = n;
 
@@ -106,10 +129,11 @@ void popula(int sudoku[TAM][TAM]) {
     int i=0, j, aux, exLin, exCol, exSet, setorLin=1, setorCol=1,count=0;
     srand(time(NULL));
 
-        while (i < TAM) {
+
+     /*   while (i < TAM) {
             j = 0;
-            while (j <floor(rand()%9)+1){
-                aux = rand() % 9 + 1;
+            while (j <TAM){
+                aux = floor(rand()%0)+1;
 
                 exLin = verfLin(aux, i, j, sudoku);
                 exCol = verfCol(aux, i, j, sudoku);
@@ -142,7 +166,7 @@ void popula(int sudoku[TAM][TAM]) {
             if (i % 3 == 0) {
                 setorLin++;
             }
-        }
+        }*/
 
 }
 
@@ -186,5 +210,7 @@ int verfSetor(int valor, int setorLin, int setorCol, int sudoku[TAM][TAM]) {
         }
     }
     return 0;
+
+
 }
 
