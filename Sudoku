@@ -30,57 +30,38 @@ int sudoku[TAM][TAM]={{5,3,0,0,7,0,0,0,0},
                 {0,6,0,0,0,0,2,8,0},
                 {0,0,0,4,1,9,0,0,5},
                 {0,0,0,0,8,0,0,7,9}};
-
-void setVazia(int sudoku[TAM][TAM]);
 void printJogo(int sudoku[TAM][TAM]);
 void inserir (int sudoku[TAM][TAM]);
 void popula(int sudoku[TAM][TAM]);
 int verfSetor(int valor, int linha, int coluna, int sudoku[TAM][TAM]);
 int verfCol(int valor,int lin, int col,int sudoku[TAM][TAM]);
 int verfLin(int valor,int lin, int col,int sudoku[TAM][TAM]);
-
+int verGanhou(int sudoku[TAM][TAM]);
 int main()
-{   int contador=0;
+{
 setlocale(LC_ALL, "Portuguese");
-
-    setVazia(sudoku);
     popula(sudoku);
 
     do{
     printJogo(sudoku);
     inserir(sudoku);
-        contador++;
 
-    }while(contador<100);
+    }while(verGanhou!=0);
 
     return 0;
 }
 
-//inicializa matriz em 0
-void setVazia(int sudoku[TAM][TAM]){
-    int i,j;
-    for(i=0;i<TAM;i++){
-        for(j=0;j<TAM;j++){
-                sudoku[i][j]=0;
-        }
-    }
-
-}
-
-
 void printJogo(int sudoku[TAM][TAM]){
 
-    static int solucoes = 0;
-int l, c;
+int i, j;
 
-printf(" Solucao: %d\n", ++solucoes);
-for (l = 0; l < 9; l++) {
-for (c = 0; c < 9; c++) {
-printf(" %d", sudoku[l][c]);
-if (c % 3 == 2) printf(" ");
+for (i = 0; i < 9; i++) {
+for (j = 0; j < 9; j++) {
+printf(" %d", sudoku[i][j]);
+if (j % 3 == 2) printf(" ");
 }
 printf("\n");
-if (l % 3 == 2) printf("\n");
+if (i % 3 == 2) printf("\n");
 }
 
 
@@ -100,8 +81,7 @@ printf("\n");
 }
 void inserir (int sudoku[TAM][TAM]){
 int i, j,n;
-do
-    {
+do{
         printf("Número:");
         scanf("%d", &n);
 
@@ -112,22 +92,24 @@ do
         printf("Coluna: ");
         scanf("%d", &j);
         j--;
+        verfLin(n, i, j, sudoku);
+        verfCol(n, i, j, sudoku);
 
-        if((verfLin(n, i, j, sudoku) == 1) || (verfCol(n, i, j, sudoku) ==1))
-            printf("Posicao ocupada ou inexistente, escolha outra.\n");
-        else
-            sudoku[i][j] = n;
+        if((verfLin(n, i, j, sudoku) == 0) && (verfCol(n, i, j, sudoku)==0) && verfSetor(n, i, j, sudoku)==0)
+             sudoku[i][j] = n;
+                    else
+                    printf("Posicao ocupada ou inexistente, escolha outra.\n");
 
 
-    } while((verfLin(n, i, j, sudoku)) != 0 && (verfCol(n, i, j, sudoku) !=0));
+    }while((verfLin(n, i, j, sudoku)) != 0 && (verfCol(n, i, j, sudoku) !=0));
 
 
 }
 
 
 void popula(int sudoku[TAM][TAM]) {
-    int i=0, j, aux, exLin, exCol, exSet, setorLin=1, setorCol=1,count=0;
-    srand(time(NULL));
+ /*   int i=0, j, aux, exLin, exCol, exSet, setorLin=1, setorCol=1,count=0;
+    srand(time(NULL*/
 
 
      /*   while (i < TAM) {
@@ -172,7 +154,7 @@ void popula(int sudoku[TAM][TAM]) {
 
 
 //verificações de existencia do valor ja inserido na matriz
-int verfLin(int valor,int lin, int col,int sudoku[TAM][TAM]){
+int verfLin(int valor,int lin, int col, int sudoku[TAM][TAM]){
     int j;
     static int count=0;
     for(j=0;j<col;j++){
@@ -188,7 +170,9 @@ int verfLin(int valor,int lin, int col,int sudoku[TAM][TAM]){
 
 int verfCol(int valor,int lin, int col,int sudoku[TAM][TAM]){
     int i;
+
     for(i=0;i<lin;i++){
+
         if(valor==sudoku[i][col])
             return 1;
 
@@ -214,3 +198,9 @@ int verfSetor(int valor, int setorLin, int setorCol, int sudoku[TAM][TAM]) {
 
 }
 
+int verGanhou(int sudoku[TAM][TAM]){
+
+
+
+
+}
