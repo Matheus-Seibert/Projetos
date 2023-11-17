@@ -21,18 +21,17 @@ para mim, REGIS
 #include <math.h>
 #include <locale.h>
 #define TAM 9
-int sudoku[TAM][TAM]={{5,3,0,0,7,0,0,0,0},
-                {6,0,0,1,9,5,0,0,0},
-                {0,9,8,0,0,0,0,6,0},
-                {8,0,0,0,6,0,0,0,3},
-                {4,0,0,8,0,3,0,0,1},
-                {7,0,0,0,2,0,0,0,6},
-                {0,6,0,0,0,0,2,8,0},
-                {0,0,0,4,1,9,0,0,5},
-                {0,0,0,0,8,0,0,7,9}};
+int sudoku[TAM][TAM]={{5,3,4,6,7,8,9,1,2},
+                      {6,7,2,1,9,5,3,4,8},
+                      {1,9,8,3,4,2,5,6,7},
+                      {8,5,9,7,6,1,0,2,3},
+                      {4,2,6,8,5,3,7,9,1},
+                      {7,1,3,9,2,4,8,5,6},
+                      {9,6,1,5,3,7,2,8,4},
+                      {2,8,7,4,1,9,6,3,5},
+                      {3,4,5,2,8,6,1,7,9}};
 void printJogo(int sudoku[TAM][TAM]);
 void inserir (int sudoku[TAM][TAM]);
-void popula(int sudoku[TAM][TAM]);
 int verfSetor(int valor, int linha, int coluna, int sudoku[TAM][TAM]);
 int verfCol(int valor,int lin, int col,int sudoku[TAM][TAM]);
 int verfLin(int valor,int lin, int col,int sudoku[TAM][TAM]);
@@ -42,13 +41,10 @@ int checarset(int set[3][3]);
 int main()
 {
 setlocale(LC_ALL, "Portuguese");
-    popula(sudoku);
-
     do{
     printJogo(sudoku);
     inserir(sudoku);
     verGanhou(sudoku);
-
     }while(verGanhou!=1);
 
     return 0;
@@ -87,61 +83,20 @@ do{
 
         if((verfLin(n, i, j, sudoku) == 0) && (verfCol(n, i, j, sudoku)==0) && (verfSetor(n, i, j, sudoku)==0))
              sudoku[i][j] = n;
+                    else if (verfLin(n, i, j, sudoku) == 1)
+                    printf("linha/n");
+                     else if (verfCol(n, i, j, sudoku) == 1)
+                    printf("coluna/n");
+                    else if (verfSetor(n, i, j, sudoku) == 1)
+                    printf("setor/n");
                     else
-                    printf("Posicao ocupada ou inexistente, escolha outra.\n");
+                        printf("Erro n indentificado");
 
 
     }while((verfLin(n, i, j, sudoku)) != 0 && (verfCol(n, i, j, sudoku) !=0));
 
 
 }
-
-
-void popula(int sudoku[TAM][TAM]) {
- /*   int i=0, j, aux, exLin, exCol, exSet, setorLin=1, setorCol=1,count=0;
-    srand(time(NULL*/
-
-
-     /*   while (i < TAM) {
-            j = 0;
-            while (j <TAM){
-                aux = floor(rand()%0)+1;
-
-                exLin = verfLin(aux, i, j, sudoku);
-                exCol = verfCol(aux, i, j, sudoku);
-                exSet = verfSetor(aux, setorLin, setorCol, sudoku);
-
-                if (exLin == 0 && exCol == 0 && exSet == 0) { //se todos 0 pode adicionar
-                    sudoku[i][j] = aux;
-                    j++;
-                    if (j % 3 == 0)
-                        setorCol++;
-
-                }
-                else{
-                //verifica quantidade de verificaçoes erradas se passar limpa matriz
-                    count++;
-                    if(count>50){
-                        setVazia(sudoku);
-                        setorLin = 1;
-                        setorCol = 1;
-                        setVazia(sudoku);
-                        i = 0;
-                        count=0;
-                        j=0;
-                    }
-                }
-            }
-            count=0;
-            i++;
-            setorCol = 1;
-            if (i % 3 == 0) {
-                setorLin++;
-            }
-        }*/
-
-}
-
 
 //verificações de existencia do valor ja inserido na matriz
 int verfLin(int valor,int lin, int col, int sudoku[TAM][TAM]){
@@ -165,8 +120,6 @@ int verfCol(int valor,int lin, int col,int sudoku[TAM][TAM]){
 
         if(valor==sudoku[i][col])
             return 1;
-
-
         }
     return 0;
 }
@@ -179,9 +132,10 @@ int verfSetor(int valor, int setorLin, int setorCol, int sudoku[TAM][TAM]) {
     for(i=iniI;i<setorLin*3;i++){
         for(j=iniJ;j<setorCol*3;j++){
             if(valor==sudoku[i][j])
-            return 1;
 
+            return 1;
         }
+
     }
     return 0;
 
@@ -189,37 +143,16 @@ int verfSetor(int valor, int setorLin, int setorCol, int sudoku[TAM][TAM]) {
 }
 
 int verGanhou(int sudoku[TAM][TAM]){
-    int i, j, k, l, set[3][3];
+    int i, j;
 
 
-     for(i = 0; i < 9; i += 3)
-        for(j = 0; j < 9; j += 3){
-            for(k = 0; k < 3; k++)
-                for(l = 0; l < 3; l++)
-                    set[k][l] = sudoku[k+i][l+j];
-            if(!checarset(set))
-                return 0;
+     for(i = 0; i < TAM; i ++)
+        for(j = 0; j < TAM; j ++){
+
         }
 
-    return 1;
-
-
 }
 
-int checarset(int set[3][3]){
- int i, j, num, existe = 0;
-for(num = 1; num <= 9; num++){
-        for(i = 0; i < 3; i++)
-            for(j = 0; j < 3; j++)
-                if(set[i][j] == num) existe++;
-        if(existe > 1)
-            return 0;
-        existe = 0;
-    }
 
-    return 1;
-
-
-}
 
 
