@@ -48,7 +48,7 @@ int main()
         inserir(sudoku);
         verGanhou(sudoku);
     }
-    while(verGanhou(sudoku)==0);
+    while(verGanhou(sudoku)==1);
     printf("você ganhou!");
     return 0;
 }
@@ -105,8 +105,7 @@ void inserir (int sudoku[TAM][TAM])
                 printf("Local já possuí um número!\n");
         }
         printJogo(sudoku);
-         verGanhou(sudoku);
-    }while(verGanhou(sudoku)==0);
+    }while(verGanhou(sudoku)==1);
 
 
 
@@ -178,6 +177,3 @@ int verGanhou(int sudoku[TAM][TAM])
 
         return 1;
 }
-
-
-
